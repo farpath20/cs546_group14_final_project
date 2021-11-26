@@ -1,7 +1,7 @@
 const { ObjectId } = require("bson");
 const mongoCollections = require("../config/mongoCollections");
 const items = mongoCollections.items;
-
+//Given item values it will create an item and post it to the 
 async function createItem(itemName,itemDescription, status, userId, itemPrice,commentId,photos)
 {
     if(typeof itemName != "string")
@@ -62,7 +62,12 @@ async function createItem(itemName,itemDescription, status, userId, itemPrice,co
         photos: photos,
         postDate : postDate
     }
-    obj["id"] = 
+    obj["_id"] = obj["_id"].toString();
+    const insertInfo = await restaurantCollection.insertOne(obj);
+    if (insertInfo.insertedCount === 0)
+    {
+        throw "Error: Did not insert right"
+    }
     return obj;
 }
 async function findItem()
